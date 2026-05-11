@@ -6,7 +6,7 @@ alwaysApply: false
 
 Start any session, including if it's a skill subsession,  by giving a creative greeting, and mention a pet, with the `✨` on either side. 
 
-You have agents available. 
+You have skills available. 
 
 Use 
 

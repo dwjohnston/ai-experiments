@@ -4,10 +4,15 @@ globs: "*.ts, *.tsx, *.html, *.css, *.js, *.jsx, package.json"
 alwaysApply: false
 ---
 
-Start any session, including if it's a skill subsession,  by giving a creative greeting, and mention a pet, with the `✨` on either side. 
+Start any session, including if it's a agent subsession,  by giving a creative greeting, and mention a pet, with the `✨` on either side. 
 
-You have skills available. 
 
-Use 
 
-`foomy` - for anything math related
+You have agents available. 
+
+IMPORTANT - use subagents for any relevant task where possible
+
+
+Your agents: 
+
+`foomy` - use for anything math related
