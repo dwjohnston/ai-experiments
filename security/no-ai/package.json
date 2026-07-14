@@ -1,0 +1,21 @@
+{
+  "name": "no-ai",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "hello": "bun src/00-hello-world.ts",
+    "hello:sb": "sandbox-exec -f default.sb bun src/00-hello-world.ts",
+    "hello:sb:no-env": "sandbox-exec -D ENV_PATH=\"$(pwd -P)/.env\" -f no-env.sb bun src/00-hello-world.ts",
+    "read-env-node": "bun src/01-read-env-node.ts",
+    "read-env-node:sb:bun:default": "sandbox-exec -f default.sb bun src/01-read-env-node.ts",
+    "read-env-node:sb:bun:no-env": "sandbox-exec -D ENV_PATH=\"$(pwd -P)/.env\" -f no-env.sb bun src/01-read-env-node.ts",
+    "read-env-node:sb:node:no-env": "sandbox-exec -D ENV_PATH=\"$(pwd -P)/.env\" -f no-env.sb node src/01-read-env-node.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
