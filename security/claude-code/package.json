@@ -1,0 +1,14 @@
+{
+  "name": "security",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node test1.js"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
