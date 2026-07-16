@@ -21,6 +21,22 @@ When I run this what I see is:
 What this demonstrates here - is that  our skill pulling in context _beyond_ what its intended for. We've polluted our context with information that isn't relevant. 
 
 
+
+
+### Open code 
+```bash
+TITLE="detective-bears-$(date +%s)"
+opencode run --command detective bears --title "$TITLE" --model anthropic/claude-haiku-4-5-20251001
+SESSION_ID=$(opencode session list --format json -n 1 | jq -r '.[0].id')
+opencode run --session "$SESSION_ID" "Do not read any files. What is the boy in the 'boy and the kite' stories name?" --model anthropic/claude-haiku-4-5-20251001
+```
+
+I am currently seeing Opencode error when trying to run this. 
+
+Although [`.claude` style skills are meant to be supported](https://opencode.ai/docs/skills/). 
+If you open the tool interactively it appears to work.
+
+
 ## Detective v2 
 
 Detective v2: 

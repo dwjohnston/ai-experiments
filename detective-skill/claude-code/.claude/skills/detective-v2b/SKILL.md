@@ -1,6 +1,6 @@
 ---
 name: detective-v2b
-description: Search the haystack/ folder for a query by delegating all work to a subagent (with a rubber-ducky clause), then relay the subagent's file list verbatim. Use when the user invokes /detective-v2b.
+description: Search the haystack/ folder for a query by delegating all work to a subagent , then relay the subagent's file list verbatim. Use when the user invokes /detective-v2b.
 ---
 
 Search the `haystack/` folder (relative to the current working directory) for information relevant to the user's query.
