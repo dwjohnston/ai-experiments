@@ -1,6 +1,6 @@
 # Harbor experiment reproduction — Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Every catalogue experiment that can run on Linux is a Harbor task
 whose verifier encodes the README claim.
@@ -40,19 +40,19 @@ bun, bubblewrap and socat.
 ## Tasks
 
 ### Task 1: verifier rules (TDD)
-- [ ] `harbor/verifier/test_check.py` (unittest): answer regex rules,
+- [x] `harbor/verifier/test_check.py` (unittest): answer regex rules,
       tool_calls some/none/all, subagent events ignored, missing/empty log → 0,
       observational → 1 only if an answer exists.
-- [ ] See it fail; implement `harbor/verifier/check.py`; see it pass. Commit.
+- [x] See it fail; implement `harbor/verifier/check.py`; see it pass. Commit.
 
 ### Task 2: generator + tasks
-- [ ] `harbor/build_tasks.py` with all experiments; writes task.toml,
+- [x] `harbor/build_tasks.py` with all experiments; writes task.toml,
       instructions, Dockerfile, fixtures, tests, reference solutions; `--check`.
-- [ ] `harbor task lint`/schema-valid; build tasks. Commit.
+- [x] `harbor task lint`/schema-valid; build tasks. Commit.
 
 ### Task 3: harness validation
-- [ ] `harbor run -a oracle` on all tasks → all reward 1.
-- [ ] `harbor run -a nop` → all reward 0.
-- [ ] Check bubblewrap works in the image. Commit.
+- [x] `harbor run -a oracle` on all tasks → all reward 1.
+- [x] `harbor run -a nop` → all reward 0.
+- [x] Check bubblewrap works in the image. Commit.
 
 ### Task 4: README, job config, push, PR
