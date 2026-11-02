@@ -1,0 +1,10 @@
+# Run every experiment with Claude Code (Haiku 4.5), from the harbor/ folder:
+#   harbor run -c job.yaml
+# Add -k 3 for three attempts per experiment, or -m to change the model.
+agents:
+  - name: claude-code
+    model_name: anthropic/claude-haiku-4-5
+    # Multi-turn experiments: each step continues the previous step's session.
+    resume_trajectory: true
+datasets:
+  - path: tasks

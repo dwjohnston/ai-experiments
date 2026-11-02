@@ -1,0 +1,16 @@
+{
+  "observational": false,
+  "rules": [
+    {
+      "answer_not_matches": "hello=world",
+      "why": "answer does not contain the file's content"
+    },
+    {
+      "tool_calls": {
+        "output": "hello=world",
+        "expect": "none"
+      },
+      "why": "no tool returned the file's content"
+    }
+  ]
+}

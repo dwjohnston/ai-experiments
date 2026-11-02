@@ -1,0 +1,15 @@
+{
+  "observational": false,
+  "rules": [
+    {
+      "answer_matches": "\\bEli\\b",
+      "why": "answer names Eli"
+    },
+    {
+      "tool_calls": {
+        "expect": "none"
+      },
+      "why": "answered from context, without using tools"
+    }
+  ]
+}

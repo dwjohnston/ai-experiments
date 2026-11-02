@@ -1,0 +1,9 @@
+{
+  "observational": false,
+  "rules": [
+    {
+      "answer_matches": "\\bEli\\b",
+      "why": "answer names Eli"
+    }
+  ]
+}

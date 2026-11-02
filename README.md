@@ -38,3 +38,7 @@ Recommend running your LLM harness via CLI **not from the repository root** run 
 
 
 
+
+## Running the experiments as evals
+
+[`harbor/`](./harbor/README.md) runs each experiment as a [Harbor](https://www.harborframework.com/) task in a fresh Linux container, with a verifier that scores the README's claim.

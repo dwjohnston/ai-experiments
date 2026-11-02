@@ -1,0 +1,13 @@
+{
+  "observational": false,
+  "rules": [
+    {
+      "answer_matches": "goldilocks",
+      "why": "the skill ran and found the bear stories"
+    },
+    {
+      "answer_matches": "boy-and-the-kite",
+      "why": "boy-and-the-kite is listed because of Eli"
+    }
+  ]
+}

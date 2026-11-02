@@ -1,0 +1,16 @@
+{
+  "observational": false,
+  "rules": [
+    {
+      "answer_not_matches": "goldilocks",
+      "why": "no haystack file list came back"
+    },
+    {
+      "tool_calls": {
+        "input": "\\.agents/skills",
+        "expect": "none"
+      },
+      "why": "diagnostic: the model did not go and read .agents/skills itself"
+    }
+  ]
+}
