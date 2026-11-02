@@ -81,3 +81,9 @@
     # The skill never runs, so no haystack file list comes back.
     - type: not-icontains
       value: goldilocks
+    # Diagnostic: when the check above fails, it's usually because the model
+    # went looking for .agents/skills/.../SKILL.md itself and followed it.
+    - type: javascript
+      metric: did-not-find-skill-file-manually
+      value: |
+        !context.providerResponse.metadata.toolCalls.some((c) => /\.agents\/skills/.test(JSON.stringify(c.input)));

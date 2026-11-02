@@ -1,6 +1,6 @@
 # promptfoo experiment reproduction — Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Run every experiment in the catalogue as a scored promptfoo test.
 
@@ -30,25 +30,25 @@ runs the non-LLM `no-ai` Seatbelt checks through promptfoo's `exec:` provider.
 ## Tasks
 
 ### Task 1: provider with unit test
-- [ ] Write `test/claude-cli.test.mjs` using a fake `claude` on PATH that
+- [x] Write `test/claude-cli.test.mjs` using a fake `claude` on PATH that
       echoes its args as JSON; assert first turn uses `--session-id`, later
       turns use `--resume` with the same id, `--settings`/`--model` passed,
       cwd resolved relative to the repo root, result text returned.
-- [ ] Run it, see it fail.
-- [ ] Implement `providers/claude-cli.js`; run test, see it pass. Commit.
+- [x] Run it, see it fail.
+- [x] Implement `providers/claude-cli.js`; run test, see it pass. Commit.
 
 ### Task 2: detective tests
-- [ ] `tests/detective.yaml` with the 5 detective rows. Run
+- [x] `tests/detective.yaml` with the 5 detective rows. Run
       `npx promptfoo eval --filter-pattern detective`. Commit.
 
 ### Task 3: security tests
-- [ ] `tests/security.yaml` with security rows incl. observational appendix.
+- [x] `tests/security.yaml` with security rows incl. observational appendix.
       Run. Commit.
 
 ### Task 4: macOS no-ai config
-- [ ] `promptfooconfig.macos.yaml` using `exec:` provider. Validate config
+- [x] `promptfooconfig.macos.yaml` using `exec:` provider. Validate config
       (`promptfoo validate`); cannot be run on Linux. Commit.
 
 ### Task 5: README + results
-- [ ] `promptfoo/README.md`: how to run, what each test checks, results from
+- [x] `promptfoo/README.md`: how to run, what each test checks, results from
       a Linux run, platform notes. Link from root README. Commit, push, PR.
