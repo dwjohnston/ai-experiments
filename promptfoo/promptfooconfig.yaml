@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+description: Reproduce the ai-experiments README claims with Claude Code
+
+# Each test's `prompt` var is the scored turn. Earlier turns go in `setup`.
+prompts:
+  - '{{prompt}}'
+
+providers:
+  - id: file://providers/claude-cli.js
+    label: claude-code
+
+defaultTest:
+  options:
+    # `setup` can be a list of turns. Without this promptfoo would make one test per item.
+    disableVarExpansion: true
+
+tests:
+  - file://tests/*.yaml

@@ -1,0 +1,89 @@
+# detective-skill/README.md and detective-skill/claude-code/README.md
+
+- description: "detective-baseline: /detective leaks unrelated stories into the main context"
+  vars:
+    cwd: detective-skill/claude-code
+    setup: /detective bears
+    prompt: Do not read any files. What is the boy in the 'boy and the kite' stories name?
+  assert:
+    # README: "The boy's name is Eli."
+    - type: regex
+      value: \bEli\b
+    # It must answer from context, not by reading files in the second turn.
+    - type: javascript
+      value: context.providerResponse.metadata.turns[1].toolCalls.length === 0
+
+- description: "detective-v2: running the skill in a subagent keeps file contents out of the main context"
+  vars:
+    cwd: detective-skill/claude-code
+    setup: /detective-v2 bears
+    prompt: Do not read any files. What is the boy in the 'boy and the kite' stories name?
+  assert:
+    - type: not-regex
+      value: \bEli\b
+
+- description: "detective-v2b: a skill that delegates to a subagent can't see the caller's context"
+  vars:
+    cwd: detective-skill/claude-code
+    setup: I have a rubber ducky named Eli.
+    prompt: /detective-v2b bears
+  assert:
+    - type: icontains
+      value: goldilocks # the skill ran and found the bear stories
+    - type: not-icontains
+      value: boy-and-the-kite # it did not know the ducky's name
+    # Diagnostic: the main agent must pass the skill's prompt through unchanged.
+    # If it adds the ducky's name to the subagent prompt, the context leaks anyway.
+    - type: javascript
+      metric: subagent-prompt-unchanged
+      value: |
+        const agentCalls = context.providerResponse.metadata.turns[1].toolCalls.filter((c) => c.name === 'Agent' || c.name === 'Task');
+        return agentCalls.length > 0 && agentCalls.every((c) => !/\bEli\b/.test(c.input.prompt ?? ''));
+
+- description: "detective-v2b control: with no ducky, boy-and-the-kite is not listed"
+  vars:
+    cwd: detective-skill/claude-code
+    prompt: /detective-v2b bears
+  assert:
+    - type: icontains
+      value: goldilocks
+    - type: not-icontains
+      value: boy-and-the-kite
+
+- description: "detective-v2b follow-up: the main session still remembers the ducky"
+  vars:
+    cwd: detective-skill/claude-code
+    setup:
+      - I have a rubber ducky named Eli.
+      - /detective-v2b bears
+    prompt: What is my rubber ducky's name?
+  assert:
+    - type: regex
+      value: \bEli\b
+
+- description: "detective-v2a: without the subagent, the skill does use the caller's context"
+  vars:
+    cwd: detective-skill/claude-code
+    setup: I have a rubber ducky named Eli.
+    prompt: /detective-v2a bears
+  assert:
+    - type: icontains
+      value: goldilocks
+    - type: icontains
+      value: boy-and-the-kite
+
+# detective-skill/generic/README.md
+- description: "detective-generic: Claude Code does not load .agents/skills"
+  vars:
+    cwd: detective-skill/generic
+    prompt: /detective-v2b bears
+  assert:
+    # The skill never runs, so no haystack file list comes back.
+    - type: not-icontains
+      value: goldilocks
+    # Diagnostic: when the check above fails, it's usually because the model
+    # went looking for .agents/skills/.../SKILL.md itself and followed it.
+    - type: javascript
+      metric: did-not-find-skill-file-manually
+      value: |
+        !context.providerResponse.metadata.toolCalls.some((c) => /\.agents\/skills/.test(JSON.stringify(c.input)));

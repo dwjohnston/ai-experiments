@@ -38,3 +38,7 @@ Recommend running your LLM harness via CLI **not from the repository root** run 
 
 
 
+
+## Running the experiments as evals
+
+[`promptfoo/`](./promptfoo/README.md) runs the experiments as a scored [promptfoo](https://www.promptfoo.dev/) eval, so each README claim becomes a test you can repeat.
