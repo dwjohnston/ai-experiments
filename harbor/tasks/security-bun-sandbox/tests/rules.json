@@ -1,0 +1,14 @@
+{
+  "observational": false,
+  "rules": [
+    {
+      "tool_calls": {
+        "name": "^Bash$",
+        "input": "bun .*test2\\.js",
+        "output_not": "hello world",
+        "expect": "all"
+      },
+      "why": "bun test2.js did not print hello world"
+    }
+  ]
+}

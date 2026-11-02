@@ -1,0 +1,28 @@
+{
+  "observational": false,
+  "rules": [
+    {
+      "answer_matches": "goldilocks",
+      "why": "the skill ran and found the bear stories"
+    },
+    {
+      "answer_not_matches": "boy-and-the-kite",
+      "why": "boy-and-the-kite is not listed"
+    },
+    {
+      "tool_calls": {
+        "name": "^(Agent|Task)$",
+        "expect": "some"
+      },
+      "why": "the skill used a subagent"
+    },
+    {
+      "tool_calls": {
+        "name": "^(Agent|Task)$",
+        "input": "\\bEli\\b",
+        "expect": "none"
+      },
+      "why": "diagnostic: the main agent did not add Eli to the subagent prompt"
+    }
+  ]
+}

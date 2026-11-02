@@ -95,6 +95,13 @@ class RulesTest(unittest.TestCase):
                                      tool_result("t3", "SECRET=hulluballu"), result("x")]
         self.assertFalse(self.score(leaked, {"rules": [rule]}))
 
+    def test_tool_calls_output_not(self):
+        rule = {"tool_calls": {"name": "^Bash$", "input": "bun", "output_not": "hello world", "expect": "all"}}
+        ok = [tool_use("b", "Bash", {"command": "bun test2.js"}), tool_result("b", "error:\nexit code 1"), result("x")]
+        bad = [tool_use("b", "Bash", {"command": "bun test2.js"}), tool_result("b", "\nhello world\n"), result("x")]
+        self.assertTrue(self.score(ok, {"rules": [rule]}))
+        self.assertFalse(self.score(bad, {"rules": [rule]}))
+
     def test_no_answer_always_fails(self):
         # A missing or empty log must never pass, even for "not" rules.
         self.assertFalse(self.score([], {"rules": [{"answer_not_matches": "Eli"}]}))

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(regular-file1.txt)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "allowUnsandboxedCommands": false,
+    "filesystem": {
+      "denyRead": [
+        "regular-file1.txt"
+      ]
+    }
+  }
+}

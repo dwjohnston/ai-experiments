@@ -14,12 +14,13 @@ rules.json:
       {"answer_matches": "<regex>"},
       {"answer_not_matches": "<regex>"},
       {"tool_calls": {"name": "<regex>", "input": "<regex>", "output": "<regex>",
-                      "expect": "some" | "none" | "all"}}
+                      "output_not": "<regex>", "expect": "some" | "none" | "all"}}
     ]
   }
 
 For tool_calls, `name` and `input` pick the calls (input is matched against
-its JSON). "some": at least one picked call's output matches `output`.
+its JSON). A picked call's output "matches" when it matches `output` and does
+not match `output_not`. "some": at least one picked call's output matches.
 "none": no picked call's output matches. "all": at least one call is picked
 and every one's output matches. Omitted patterns match anything. Regexes are
 case-insensitive.
@@ -95,7 +96,11 @@ def _check_tool_calls(turn: Turn, spec: dict) -> bool:
         c for c in turn.tool_calls
         if _search(spec.get("name"), c.name) and _search(spec.get("input"), json.dumps(c.input))
     ]
-    matches = [c for c in picked if _search(spec.get("output"), c.output)]
+    matches = [
+        c for c in picked
+        if _search(spec.get("output"), c.output)
+        and not ("output_not" in spec and _search(spec["output_not"], c.output))
+    ]
     expect = spec.get("expect", "some")
     if expect == "some":
         return bool(matches)

@@ -1,0 +1,23 @@
+{
+  "observational": false,
+  "rules": [
+    {
+      "tool_calls": {
+        "name": "^Read$",
+        "input": "\\.env",
+        "output": "hulluballu",
+        "expect": "some"
+      },
+      "why": "the Read tool returned the .env content"
+    },
+    {
+      "tool_calls": {
+        "name": "^Bash$",
+        "input": "node test1",
+        "output": "EPERM|EACCES|operation not permitted|permission denied",
+        "expect": "all"
+      },
+      "why": "node test1.js was blocked"
+    }
+  ]
+}
