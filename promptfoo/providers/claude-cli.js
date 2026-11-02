@@ -12,8 +12,9 @@
 //   claudeBin  path to the claude binary (default: claude on PATH)
 //   timeoutMs  per-turn timeout (default: 5 minutes)
 //
-// The response metadata has `turns` (every prompt and answer) and `toolCalls`
-// (each tool the main agent used, its input and what it returned).
+// The response metadata has `toolCalls` (each tool the main agent used, its
+// input and what it returned) and `turns` (each prompt, its answer and the tool
+// calls made during that turn).
 
 import { execFile } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
@@ -99,6 +100,7 @@ export default class ClaudeCliProvider {
     const sessionId = randomUUID();
     const turns = [];
     let cost = 0;
+    let seenToolCalls = 0;
 
     try {
       for (const [i, turn] of [...setup, prompt].entries()) {
@@ -108,7 +110,14 @@ export default class ClaudeCliProvider {
 
         const result = await runTurn(bin, args, cwd, timeoutMs);
         cost += result.total_cost_usd ?? 0;
-        turns.push({ prompt: turn, output: result.result ?? '', isError: Boolean(result.is_error) });
+        const toolCalls = readToolCalls(sessionId);
+        turns.push({
+          prompt: turn,
+          output: result.result ?? '',
+          isError: Boolean(result.is_error),
+          toolCalls: toolCalls.slice(seenToolCalls),
+        });
+        seenToolCalls = toolCalls.length;
       }
     } catch (err) {
       return { error: err.message, metadata: { sessionId, cwd, turns, toolCalls: readToolCalls(sessionId) } };

@@ -9,11 +9,9 @@
     # README: "The boy's name is Eli."
     - type: regex
       value: \bEli\b
-    # Make sure it answered from context rather than ignoring "do not read any files".
+    # It must answer from context, not by reading files in the second turn.
     - type: javascript
-      value: |
-        const turns = context.providerResponse.metadata.turns;
-        return turns.length === 2 && !/boy-and-the-kite/i.test(JSON.stringify(context.providerResponse.metadata.toolCalls.slice(-3)));
+      value: context.providerResponse.metadata.turns[1].toolCalls.length === 0
 
 - description: "detective-v2: running the skill in a subagent keeps file contents out of the main context"
   vars:
@@ -34,6 +32,23 @@
       value: goldilocks # the skill ran and found the bear stories
     - type: not-icontains
       value: boy-and-the-kite # it did not know the ducky's name
+    # Diagnostic: the main agent must pass the skill's prompt through unchanged.
+    # If it adds the ducky's name to the subagent prompt, the context leaks anyway.
+    - type: javascript
+      metric: subagent-prompt-unchanged
+      value: |
+        const agentCalls = context.providerResponse.metadata.turns[1].toolCalls.filter((c) => c.name === 'Agent' || c.name === 'Task');
+        return agentCalls.length > 0 && agentCalls.every((c) => !/\bEli\b/.test(c.input.prompt ?? ''));
+
+- description: "detective-v2b control: with no ducky, boy-and-the-kite is not listed"
+  vars:
+    cwd: detective-skill/claude-code
+    prompt: /detective-v2b bears
+  assert:
+    - type: icontains
+      value: goldilocks
+    - type: not-icontains
+      value: boy-and-the-kite
 
 - description: "detective-v2b follow-up: the main session still remembers the ducky"
   vars:

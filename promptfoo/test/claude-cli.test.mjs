@@ -103,6 +103,7 @@ console.log(JSON.stringify({ result: 'done', total_cost_usd: 0 }));
       { name: 'Bash', input: { command: 'node test1.js' }, output: 'Error: EACCES: permission denied' },
       { name: 'Read', input: { file_path: '.env' }, output: 'SECRET=x' },
     ]);
+    assert.equal(res.metadata.turns[0].toolCalls.length, 2);
   } finally {
     delete process.env.CLAUDE_CONFIG_DIR;
   }

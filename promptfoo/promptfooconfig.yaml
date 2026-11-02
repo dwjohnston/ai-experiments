@@ -9,6 +9,10 @@ providers:
   - id: file://providers/claude-cli.js
     label: claude-code
 
+defaultTest:
+  options:
+    # `setup` can be a list of turns. Without this promptfoo would make one test per item.
+    disableVarExpansion: true
+
 tests:
-  - file://tests/detective.yaml
-  - file://tests/security.yaml
+  - file://tests/*.yaml

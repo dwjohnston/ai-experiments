@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+# security/no-ai: macOS Seatbelt (sandbox-exec) with no AI involved.
+# macOS only: sandbox-exec does not exist on Linux.
+# The `exec:` provider runs each test's command through scripts/run-in-no-ai.sh.
+description: security/no-ai sandbox-exec checks (macOS only)
+
+prompts:
+  - '{{command}}'
+
+providers:
+  - id: 'exec: ./scripts/run-in-no-ai.sh'
+    label: sandbox-exec
+
+tests:
+  - description: "no-ai-1: without the sandbox, the script prints .env"
+    vars:
+      command: bun src/01-read-env-node.ts
+    assert:
+      - type: icontains
+        value: SECRET=
+      - type: regex
+        value: exit=0$
+
+  - description: "no-ai-2: no-env.sb stops node reading .env"
+    vars:
+      command: sandbox-exec -D ENV_PATH="$(pwd -P)/.env" -f no-env.sb node src/01-read-env-node.ts
+    assert:
+      - type: icontains
+        value: EPERM
+      - type: not-icontains
+        value: SECRET=
+
+  - description: "no-ai-3: bun fails even for hello world, because it loads .env by default"
+    vars:
+      command: sandbox-exec -D ENV_PATH="$(pwd -P)/.env" -f no-env.sb bun src/00-hello-world.ts
+    assert:
+      - type: regex
+        value: exit=1$
+
+  - description: "no-ai-4: bun --no-env-file runs fine in the sandbox"
+    vars:
+      command: sandbox-exec -D ENV_PATH="$(pwd -P)/.env" -f no-env.sb bun --no-env-file src/00-hello-world.ts
+    assert:
+      - type: icontains
+        value: Hello world!
+      - type: regex
+        value: exit=0$
