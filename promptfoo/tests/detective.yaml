@@ -1,0 +1,68 @@
+# detective-skill/README.md and detective-skill/claude-code/README.md
+
+- description: "detective-baseline: /detective leaks unrelated stories into the main context"
+  vars:
+    cwd: detective-skill/claude-code
+    setup: /detective bears
+    prompt: Do not read any files. What is the boy in the 'boy and the kite' stories name?
+  assert:
+    # README: "The boy's name is Eli."
+    - type: regex
+      value: \bEli\b
+    # Make sure it answered from context rather than ignoring "do not read any files".
+    - type: javascript
+      value: |
+        const turns = context.providerResponse.metadata.turns;
+        return turns.length === 2 && !/boy-and-the-kite/i.test(JSON.stringify(context.providerResponse.metadata.toolCalls.slice(-3)));
+
+- description: "detective-v2: running the skill in a subagent keeps file contents out of the main context"
+  vars:
+    cwd: detective-skill/claude-code
+    setup: /detective-v2 bears
+    prompt: Do not read any files. What is the boy in the 'boy and the kite' stories name?
+  assert:
+    - type: not-regex
+      value: \bEli\b
+
+- description: "detective-v2b: a skill that delegates to a subagent can't see the caller's context"
+  vars:
+    cwd: detective-skill/claude-code
+    setup: I have a rubber ducky named Eli.
+    prompt: /detective-v2b bears
+  assert:
+    - type: icontains
+      value: goldilocks # the skill ran and found the bear stories
+    - type: not-icontains
+      value: boy-and-the-kite # it did not know the ducky's name
+
+- description: "detective-v2b follow-up: the main session still remembers the ducky"
+  vars:
+    cwd: detective-skill/claude-code
+    setup:
+      - I have a rubber ducky named Eli.
+      - /detective-v2b bears
+    prompt: What is my rubber ducky's name?
+  assert:
+    - type: regex
+      value: \bEli\b
+
+- description: "detective-v2a: without the subagent, the skill does use the caller's context"
+  vars:
+    cwd: detective-skill/claude-code
+    setup: I have a rubber ducky named Eli.
+    prompt: /detective-v2a bears
+  assert:
+    - type: icontains
+      value: goldilocks
+    - type: icontains
+      value: boy-and-the-kite
+
+# detective-skill/generic/README.md
+- description: "detective-generic: Claude Code does not load .agents/skills"
+  vars:
+    cwd: detective-skill/generic
+    prompt: /detective-v2b bears
+  assert:
+    # The skill never runs, so no haystack file list comes back.
+    - type: not-icontains
+      value: goldilocks

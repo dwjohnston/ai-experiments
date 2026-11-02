@@ -1,0 +1,16 @@
+{
+  "name": "ai-experiments-promptfoo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "eval": "promptfoo eval -j 4 --no-cache",
+    "eval:detective": "promptfoo eval -j 4 --no-cache --filter-pattern detective",
+    "eval:security": "promptfoo eval -j 1 --no-cache --filter-pattern security",
+    "eval:macos": "promptfoo eval -c promptfooconfig.macos.yaml --no-cache",
+    "view": "promptfoo view"
+  },
+  "devDependencies": {
+    "promptfoo": "0.125.1"
+  }
+}
