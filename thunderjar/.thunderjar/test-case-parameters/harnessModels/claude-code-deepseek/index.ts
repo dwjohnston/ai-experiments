@@ -8,7 +8,8 @@ import { claudeCodeReply, declareHarness } from "thunderjar";
 export default declareHarness({
   applyParameter: (_config, ctx) => `RUN npm install -g @anthropic-ai/claude-code@${ctx.version}
 RUN mkdir -p /thunderjar && chown -R node:node /workspace /thunderjar
-USER node`,
+USER node
+RUN echo '{"projects":{"/workspace":{"hasTrustDialogAccepted":true}}}' > /home/node/.claude.json`,
   cli: (ctx) =>
     `ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic ANTHROPIC_AUTH_TOKEN="$DEEPSEEK_API_KEY"` +
     ` ANTHROPIC_DEFAULT_HAIKU_MODEL=${ctx.modelId} CLAUDE_CODE_SUBAGENT_MODEL=${ctx.modelId}` +
