@@ -5,8 +5,8 @@ export default declareTestCase({
   baseImage: ["node20"],
   codeState: ["detective-claude-code"],
   promptSet: ["as-committed"],
-  // Or "claude-code@2.1.317/haiku-4-5", with ANTHROPIC_API_KEY set.
-  harnessModel: ["claude-code-deepseek@2.1.317/deepseek-flash"],
+  // Or "claude-code-deepseek@2.1.317/deepseek-flash", with DEEPSEEK_API_KEY set.
+  harnessModel: ["claude-code@2.1.317/haiku-4-5"],
   task: "ducky-context",
   initialPrompt: ["v2b", "v2a", "v2b-no-ducky"],
   iterations: 3,

@@ -5,8 +5,8 @@ export default declareTestCase({
   baseImage: ["node20"],
   codeState: ["security-claude-code"],
   promptSet: ["as-committed", "settings-disable-env-sandbox"],
-  // Or "claude-code@2.1.317/haiku-4-5", with ANTHROPIC_API_KEY set.
-  harnessModel: ["claude-code-deepseek@2.1.317/deepseek-flash"],
+  // Or "claude-code-deepseek@2.1.317/deepseek-flash", with DEEPSEEK_API_KEY set.
+  harnessModel: ["claude-code@2.1.317/haiku-4-5"],
   task: "bun-script",
   initialPrompt: ["run-test2"],
   iterations: 3,

@@ -28,7 +28,7 @@ bunx thunderjar generate
 ```
 
 ```bash
-export DEEPSEEK_API_KEY=...
+export ANTHROPIC_API_KEY=...
 ```
 
 ```bash
@@ -54,12 +54,15 @@ bunx thunderjar show <execution id> 1-1
 
 ### Which model
 
-The test cases run Claude Code against DeepSeek's Anthropic-compatible API,
-because that was the key available when this was built. To run them on
-Anthropic's models, as the promptfoo and Harbor versions do, change a test
-case's `harnessModel` to `claude-code@2.1.317/haiku-4-5` and set
-`ANTHROPIC_API_KEY`. A test case can list both, and Thunderjar compares them
-side by side.
+The test cases run Claude Code with `claude-haiku-4-5`, the same model as the
+promptfoo and Harbor versions.
+
+There's also a `claude-code-deepseek` harness: the same Claude Code, pointed at
+DeepSeek's Anthropic-compatible API. The results below come from it, because
+DeepSeek was the only key available where this was built. To use it, set
+`DEEPSEEK_API_KEY`, and change a test case's `harnessModel` to
+`claude-code-deepseek@2.1.317/deepseek-flash`. A test case can list both
+harnesses, and `show` puts them side by side.
 
 ## How it maps
 
