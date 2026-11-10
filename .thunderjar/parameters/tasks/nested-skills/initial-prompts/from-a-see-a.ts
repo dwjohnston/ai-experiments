@@ -1,9 +1,8 @@
-import { declareInitialPrompt } from "thunderjar";
+import { declareInitialPrompt, writePrompt } from "thunderjar";
 
 // Started in a/, asking about the file in it. Expect 🟢 (a), and 🔴 if base's skill, one folder up,
 // is picked up too.
 export default declareInitialPrompt({
-  prompt: "tell me about a.ts",
   timeoutSeconds: 300,
-  applyParameter: () => "WORKDIR /workspace/a",
+  applyParameter: () => [writePrompt("tell me about a.ts"), "WORKDIR /workspace/a"].join("\n"),
 });

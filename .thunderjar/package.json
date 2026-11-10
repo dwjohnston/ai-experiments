@@ -3,6 +3,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "thunderjar": "latest"
+    "thunderjar": "0.3.0-preview-9210b0b"
   }
 }

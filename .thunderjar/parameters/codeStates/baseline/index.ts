@@ -5,7 +5,7 @@ import { declareCodeState } from "thunderjar";
 export default declareCodeState({
   config: {
     repo: "https://github.com/dwjohnston/ai-experiments",
-    commit: "2acaef1caf637192df4ccc1a89f42a468eba6f1c",
+    commit: "1ea118618ab2e11338ff9af3b14e2879dcf988a1",
   },
   applyParameter: (config) => `RUN git clone --quiet ${config.repo} /workspace \\
   && git -C /workspace checkout --quiet --detach ${config.commit} \\

@@ -1,10 +1,8 @@
-import { claudeCode } from "thunderjar";
+import { CLAUDE_CODE_COMMAND, claudeCode } from "thunderjar";
 
 // Claude Code at low effort: the starter claude-code-2.1.311 harness, with `--effort low`.
 // e.g. "claude-code-2.1.311-low/claude-haiku-5-5".
 export default claudeCode({
   version: "2.1.311",
-  cli: (ctx) =>
-    `claude -p "$(cat ${ctx.promptPath})" --model ${ctx.modelId} --effort low --output-format json --dangerously-skip-permissions` +
-    ` ${ctx.turn === 0 ? "--session-id" : "--resume"} ${ctx.sessionId} > ${ctx.resultPath}`,
+  command: CLAUDE_CODE_COMMAND.replace(" --output-format", " --effort low --output-format"),
 });
